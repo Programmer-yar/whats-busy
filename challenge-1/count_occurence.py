@@ -1,29 +1,25 @@
 def compress(input_string):
-    compressed_string = str()
-    count = ''
-    counted_letter = ''
+    compressed_string, count, counted_letter = ['' for _ in range(3)]
     string_length = len(input_string)
     for index, letter in enumerate(input_string):
         if counted_letter != letter:
+            # if letter is changed from tracked letter, it will put it
+            # in compressed string alongwith count
+            # change the pointer to next letter and re initilize count
             compressed_string += f'{counted_letter}{count}'
-            print("compressed_string: ", compressed_string)
             counted_letter = letter
-            print("changed letter: ", counted_letter)
             count = 1
         else:
             count += 1
-            print(f"count of {counted_letter} is {count}")
 
         if string_length == index + 1:
-            # End of string
+            # adds the letter and count at the end of string
             compressed_string += f'{counted_letter}{count}'
 
-    return compressed_string
+    return compressed_string.replace('1', '')
 
-# assert compress('bbcceeee') == 'b2c2e4'
-# assert compress('a') == 'a'
-# test = 'aafggiII'
-# test1 = 'aaabbbcccaaa'
-# assert compress('aaabbbcccaaa') == 'a3b3c3a3'
-print(compress('bbccbbhu'))
+assert compress('bbcceeee') == 'b2c2e4'
+assert compress('a') == 'a'
+assert compress('aaabbbcccaaa') == 'a3b3c3a3'
+
 
