@@ -1,0 +1,4 @@
+- get the current element
+- keep increasing its count untill different element begins
+- add the element along with its count to the string
+- move forward and repeat
