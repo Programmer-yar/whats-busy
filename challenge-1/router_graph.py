@@ -39,18 +39,18 @@ class Graph():
         self.edges.append(new_edge)
 
     def identify_routers(self):
-        node_dict = dict()
-        for node in self.nodes:
-            node_dict[node.value] = len(node.edges)
-        all_values = list(node_dict.values())
-        all_keys = list(node_dict.keys())
-        max_val = max(all_values)
-        max_indices = list()
-        for index, value in enumerate(all_values):
-            if value == max_val:
-                max_indices.append(index)
-        routers = [all_keys[index] for index in max_indices]
-        return routers
+        node_dict = dict() # 1 time
+        for node in self.nodes: # n times
+            node_dict[node.value] = len(node.edges) # n times
+        all_values = list(node_dict.values())   # n times
+        all_keys = list(node_dict.keys())   # n times
+        max_val = max(all_values)   # n times
+        max_indices = list()    # 1 time
+        for index, value in enumerate(all_values):  # n times
+            if value == max_val:    # n times
+                max_indices.append(index)   # n times
+        routers = [all_keys[index] for index in max_indices]    # n times
+        return routers  # 1 time
 
 # 2 -> 4 -> 6 -> 2 -> 5 -> 6 = 2, 6
 graph_1 = Graph()
@@ -61,3 +61,5 @@ graph_1.insert_edge(2, 5)
 graph_1.insert_edge(5, 6)
 
 print(graph_1.identify_routers())
+
+# O(9n + 2) approximates to O(n)
