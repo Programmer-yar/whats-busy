@@ -45,13 +45,14 @@ class Graph():
         all_values = list(node_dict.values())
         all_keys = list(node_dict.keys())
         max_val = max(all_values)
-        max_indices = [index
-                       for index, value in enumerate(all_values) 
-                       if value == max_val
-                    ]
+        max_indices = list()
+        for index, value in enumerate(all_values):
+            if value == max_val:
+                max_indices.append(index)
         routers = [all_keys[index] for index in max_indices]
         return routers
 
+# 2 -> 4 -> 6 -> 2 -> 5 -> 6 = 2, 6
 graph_1 = Graph()
 graph_1.insert_edge(2, 4)
 graph_1.insert_edge(4, 6)
