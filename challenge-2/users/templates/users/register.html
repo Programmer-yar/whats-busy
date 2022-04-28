@@ -1,0 +1,9 @@
+{% extends "test_app/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<h3>Registration Form</h3>
+<form method="POST" class="mt-3">
+  {{ form | crispy }}
+</form>
+{% endblock %}
