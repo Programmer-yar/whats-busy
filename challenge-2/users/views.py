@@ -1,3 +1,7 @@
 from django.shortcuts import render
+from django_registration.views import RegistrationView
 
-# Create your views here.
+class CustomRegistrationView(RegistrationView):
+    def register(self):
+        print(self.request.POST)
+        print(self.form)

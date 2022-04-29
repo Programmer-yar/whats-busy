@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 
     'test_app',
     'users',
+    
     'django_registration',
     'crispy_forms'
 ]
@@ -120,3 +121,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51I3cqMA4nuJHTAQPaBQEKg3r2daRznpLNkDKSmj7ig6ff5FTMkf0DZZ9szqg3qr3GbhYqXSq9VFIxdzfFudW9auJ00A7WTLN8d'
+
+STRIPE_SECRET_KEY = 'sk_test_51I3cqMA4nuJHTAQPftI0SenK5121H2HMzuJkbtTzh19t8Dyz0r7MKdgHLRb8QPWGQRxGzSvRxYMsNSxuUlFL4vWp00SIu5ddaV'
