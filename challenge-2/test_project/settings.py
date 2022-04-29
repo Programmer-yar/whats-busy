@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     'test_app',
     'users',
     
-    'django_registration',
     'crispy_forms'
 ]
 
@@ -110,7 +109,7 @@ USE_I18N = True
 USE_TZ = True
 
 AUTH_USER_MODEL = 'users.User'
-
+LOGOUT_REDIRECT_URL = "/"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
