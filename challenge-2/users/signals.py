@@ -1,11 +1,9 @@
 from django.db.models.signals import post_save
-from django.contrib.auth import get_user_model
 from django.dispatch import receiver
-from .models import Subscription
+from test_app.models import Subscription
+from .models import User
 
-@receiver(post_save, sender=get_user_model)
+@receiver(post_save, sender=User)
 def create_subscription(sender, instance, created, **kwargs):
-    print("Signal fired !!")
     if created:
-        print("Element Created!")
         Subscription.objects.create(user=instance)
