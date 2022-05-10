@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,8 +18,8 @@ class AddCardView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         user_subscription = request.user.subscription
-        # if user_subscription.card_valid:
-        #     return redirect(reverse('home'))
+        if user_subscription.card_valid:
+            return redirect(reverse('home'))
         customer_id = user_subscription.stripe_customer_id
         if not user_subscription.stripe_customer_id:
             customer = stripe.Customer.create()
@@ -32,8 +33,9 @@ class AddCardView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
-        # user_subscription = request.user.subscription
-        # user_subscription.card_valid = True
-        # user_subscription.save()
+        user_subscription = request.user.subscription
+        user_subscription.payment_method_id = request.POST.get('paymentMethod')
+        user_subscription.card_valid = True
+        user_subscription.card_add_date = datetime.datetime.now()
+        user_subscription.save()
         return redirect(reverse('home'))
