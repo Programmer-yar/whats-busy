@@ -1,0 +1,82 @@
+{% extends "test_app/base.html" %}
+
+{% block main %}
+<input id="cardholder-name" type="text" class="mt-3" placeholder="Card holder Name">
+<br>
+<form id="setup-form" class="mt-3" data-secret="{{ client_secret }}">
+  <div class="form-row">
+    <label for="card-element">
+      Credit or debit card
+    </label>
+    <div id="card-element" style="width: 30em">
+      <!-- A Stripe Element will be inserted here. -->
+    </div>
+
+    <!-- Used to display Element errors. -->
+    <div id="card-errors" role="alert" style="width: 30em; height: 2em; letter-spacing: 0em"></div>
+  </div>
+
+  <button type="submit" class="btn btn-info">Validate</button>
+</form>
+
+<form method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="paymentMethod" value="">
+  <button id="main-btn" type="submit" class="btn btn-info">Submit</button>
+</form>
+{% endblock %}
+
+{% block script %}
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async() => {
+      var stripe = Stripe('pk_test_51I3cqMA4nuJHTAQPaBQEKg3r2daRznpLNkDKSmj7ig6ff5FTMkf0DZZ9szqg3qr3GbhYqXSq9VFIxdzfFudW9auJ00A7WTLN8d');
+      var elements = stripe.elements();
+      // Custom styling can be passed to options when creating an Element.
+      var style = {
+        base: {
+          // Add your base input styles here. For example:
+          fontSize: '16px',
+          color: '#32325d',
+        },
+      };
+
+      // Create an instance of the card Element.
+      var card = elements.create('card', {style: style});
+
+      // Add an instance of the card Element into the `card-element` <div>.
+      card.mount('#card-element');
+      var cardholderName = document.getElementById('cardholder-name');
+      var setupForm = document.getElementById('setup-form');
+      var clientSecret = setupForm.dataset.secret;
+
+      setupForm.addEventListener('submit', function(ev) {
+        ev.preventDefault();
+        stripe.confirmCardSetup(
+          clientSecret,
+          {
+            payment_method: {
+              card: card,
+              billing_details: {
+                name: cardholderName.value,
+              },
+            },
+          }
+        ).then(function(result) {
+          if (result.error) {
+            // Display error.message in your UI.
+            alert("Card Invalid");
+          } else {
+            console.log(result);
+            var paymentInput = document.querySelector("[name='paymentMethod']");
+            paymentInput.value = result.setupIntent.payment_method;
+            document.querySelector("#main-btn").click();
+          }
+        });
+
+      });
+
+    });
+
+  </script>
+{% endblock %}
