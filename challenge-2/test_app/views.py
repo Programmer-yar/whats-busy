@@ -13,7 +13,8 @@ class HomeView(LoginRequiredMixin, View):
     template_name = 'test_app/home.html'
 
     def get(self, request, *args, **kwargs):
-        if not request.user.subscription.card_valid:
+        user_sub = request.user.subscription
+        if not user_sub.card_valid:
             return redirect(reverse('add-card'))
         return render(request, self.template_name)
 
@@ -39,6 +40,10 @@ class AddCardView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         user_subscription = request.user.subscription
         user_subscription.payment_method_id = request.POST.get('paymentMethod')
+        stripe.PaymentMethod.attach(
+            user_subscription.payment_method_id,
+            customer=user_subscription.stripe_customer_id
+            )
         user_subscription.card_valid = True
         user_subscription.card_add_date = datetime.datetime.now()
         user_subscription.save()
