@@ -13,9 +13,12 @@ def enable_subscription():
     for sub in trial_expired:
         response = stripe.Subscription.create(
             customer=sub.stripe_customer_id,
+            default_payment_method=sub.payment_method_id,
+            # create a price object in stripe dashboard or using API
             items=[{"price": "price_1L29elA4nuJHTAQPp29pQDwJ"}],
             )
         sub.stripe_subscription_id = response["id"]
         sub.subscribed = True
         sub.free_trial = False
         sub.save()
+

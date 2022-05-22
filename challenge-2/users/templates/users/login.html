@@ -11,9 +11,12 @@
       {{ form | crispy }}
       
       <button type="submit" class="btn btn-info">Submit</button>
+      <br>
+      <div><a href="{% url 'register' %}">Sign Up</a></div>
     </form>    
   </div>
   <div class="col"></div>
 </div>
+
 
 {% endblock %}

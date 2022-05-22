@@ -3,4 +3,10 @@
 <div class="mt-5">
   <h3>Welcome to Premimum service</h3>
 </div>
+
+{% if request.user.subscription.subscribed %}
+<div>
+  <a href="{% url 'cancel-sub' %}">Cancel my subscription</a>
+</div>
+{% endif %}
 {% endblock %}
