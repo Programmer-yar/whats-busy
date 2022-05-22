@@ -1,6 +1,5 @@
 import datetime
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.urls import reverse
@@ -9,9 +8,13 @@ from django.conf import settings
 import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-class HomeView(LoginRequiredMixin, TemplateView):
+class HomeView(LoginRequiredMixin, View):
     template_name = 'test_app/home.html'
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.subscription.card_valid:
+            return redirect(reverse('add-card'))
+        return render(request, self.template_name)
 
 class AddCardView(LoginRequiredMixin, View):
     template_name = 'test_app/add_card.html'

@@ -31,6 +31,9 @@
   <script>
     document.addEventListener('DOMContentLoaded', async() => {
       var stripe = Stripe('pk_test_51I3cqMA4nuJHTAQPaBQEKg3r2daRznpLNkDKSmj7ig6ff5FTMkf0DZZ9szqg3qr3GbhYqXSq9VFIxdzfFudW9auJ00A7WTLN8d');
+      var mainSubmit = document.querySelector("#main-btn");
+      mainSubmit.style.display = 'none';
+      
       var elements = stripe.elements();
       // Custom styling can be passed to options when creating an Element.
       var style = {
@@ -70,7 +73,7 @@
             console.log(result);
             var paymentInput = document.querySelector("[name='paymentMethod']");
             paymentInput.value = result.setupIntent.payment_method;
-            document.querySelector("#main-btn").click();
+            mainSubmit.click();
           }
         });
 
