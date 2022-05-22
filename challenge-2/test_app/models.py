@@ -9,6 +9,8 @@ class Subscription(models.Model):
     payment_method_id = models.CharField(default=str, max_length=256)
     card_valid = models.BooleanField(default=False)
     card_add_date = models.DateTimeField(blank=True, null=True)
+    subscription_cancelled = models.BooleanField(default=False)
+    stripe_subscription_id = models.CharField(default=str, max_length=256)
 
     def __str__(self):
         return f"{self.user} Subscription"

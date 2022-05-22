@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'test_app',
     'users',
     
-    'crispy_forms'
+    'crispy_forms',
+    'django_q',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,20 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51I3cqMA4nuJHTAQPaBQEKg3r2daRznpLNkDKSmj7ig6ff5FTMkf0DZZ9szqg3qr3GbhYqXSq9VFIxdzfFudW9auJ00A7WTLN8d'
 
 STRIPE_SECRET_KEY = 'sk_test_51I3cqMA4nuJHTAQPftI0SenK5121H2HMzuJkbtTzh19t8Dyz0r7MKdgHLRb8QPWGQRxGzSvRxYMsNSxuUlFL4vWp00SIu5ddaV'
+
+Q_CLUSTER = {
+    'name': 'whats-busy',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': 60,
+    'compress': True,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'cpu_affinity': 1,
+    'label': 'Django Q',
+    'redis': {
+        'host': 'localhost',
+        'port': 6379,
+        'db': 0
+        }
+}

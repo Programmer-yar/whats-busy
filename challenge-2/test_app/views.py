@@ -1,4 +1,5 @@
 import datetime
+from re import template
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
@@ -42,3 +43,13 @@ class AddCardView(LoginRequiredMixin, View):
         user_subscription.card_add_date = datetime.datetime.now()
         user_subscription.save()
         return redirect(reverse('home'))
+
+
+class CancelSubView(LoginRequiredMixin, View):
+    template_name = 'test_app/cancel_sub.html'
+    def get(self, request, *args, **kwargs):
+        user_subscription = request.user.subscription
+        stripe.Subscription.delete(user_subscription.stripe_subscription_id)
+        user_subscription.subscription_cancelled = True
+        user_subscription.save()
+        return render(request, self.template_name)
